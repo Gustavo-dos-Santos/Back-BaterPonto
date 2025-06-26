@@ -1,0 +1,31 @@
+-- 1. Criar o usuário (se ainda não existir)
+CREATE USER gustavo WITH PASSWORD '';
+
+-- 2. Criar o banco e definir o dono
+CREATE DATABASE bater_ponto OWNER gustavo;
+
+-- 3. Conectar ao banco
+\c bater_ponto
+
+-- 4. Ativar extensão para geração de UUIDs (opcional, mas útil)
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+-- 5. Criar tabela de usuários
+CREATE TABLE public.usuarios (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    nome VARCHAR NOT NULL,
+    email VARCHAR NOT NULL,
+    senha VARCHAR NOT NULL
+);
+
+-- 6. Criar tabela de ponto
+CREATE TABLE public.ponto (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    created_at DATE NOT NULL,
+    usuario_id UUID NOT NULL,
+    CONSTRAINT fk_usuario_id
+        FOREIGN KEY (usuario_id)
+        REFERENCES public.usuarios(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
