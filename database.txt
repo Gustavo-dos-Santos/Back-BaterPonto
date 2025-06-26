@@ -1,3 +1,5 @@
+dbeaver
+
 -- 1. Criar o usuário (se ainda não existir)
 CREATE USER gustavo WITH PASSWORD '';
 
